@@ -1,6 +1,8 @@
 
 
 let movimientos=[];
+let ingresos;
+let egresos;
 
 
 function registrarMovimiento(){
@@ -19,7 +21,7 @@ function registrarMovimiento(){
         return // terminamos condicion
     }
 
-    let monto=prompt("Ingresa el monto :");
+    let monto=Number(prompt("Ingresa el monto :"));
     if(isNaN(monto) || monto <=0){
         alert("Ingresar un monto mayor a cero")
         return;
@@ -34,11 +36,15 @@ function registrarMovimiento(){
 function calcularTotalSaldo(){
 
     let saldo = 0 ;
+    ingresos=0;
+    egresos=0;
 
    for (i=0 ; i<movimientos.length;i++){
     if(movimientos[i].tipo === "ingreso"){
+        ingresos+= movimientos[i].monto;
         saldo += movimientos[i].monto;
     }else if(movimientos[i].tipo === "egreso"){
+        egresos+=movimientos[i].monto;
         saldo -= movimientos[i].monto;
     }
    }
@@ -50,8 +56,38 @@ function calcularTotalSaldo(){
 
 
 function mostrarResumen(){
-
+    let saldoTotal=calcularTotalSaldo();
     let cantidadMovimientos = movimientos.length;
-    let totalGastos=0;
-    let totalIngresos=0;
+
+    console.log(`Cantidad de movimientos : ${cantidadMovimientos}`);
+    console.log(`Total Ingresos : ${ingresos}`);
+    console.log(`Total Egresos : ${egresos}`);
+    console.log(`Saldo Total : ${saldoTotal}`);
+
 }
+function menu(){
+
+    let opcion=0;
+        
+
+    while(opcion !==3) {
+        opcion = Number(prompt(`Bienvenidos a Personal Budget V1.0
+            \n Escoja una opcion :
+            \n1.Registrar Movimiento
+            \n2.Ver Resumen
+            \n3.Salir`));
+        if(opcion ===1){
+            registrarMovimiento();
+        }else if(opcion ===2){
+            mostrarResumen();
+        }else if(opcion === 3){
+            alert("Gracias por usar Personal Budget V1.0");
+        }else{
+            alert("Opcion Invalidad, ingrese solo : 1 , 2 o 3");
+        }
+    }           
+
+}
+
+
+menu();
